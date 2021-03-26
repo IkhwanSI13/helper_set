@@ -1,7 +1,6 @@
 name: helper_set
 description: Helper packages
 version: 0.0.1
-author: Ikhwan Koto<ikhwan220397@gmail.com>
 homepage: https://github.com/IkhwanSI13/helper_set
 
 environment:
@@ -12,15 +11,15 @@ dependencies:
   flutter:
     sdk: flutter
 
+  intl: ^0.16.1
+  path_provider: ^1.6.24
+  flutter_image_compress: ^0.7.0
+  cached_network_image: ^2.0.0
+  url_launcher: ^5.6.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  intl: 0.16.1 #DateFormat
-  path_provider: ^1.6.24
-  flutter_image_compress: 0.7.0 #Updated from 0.6.5+1
-  cached_network_image: 2.0.0 #NeedUpdate to 2.3.2, depend on RxDart Lib
-  url_launcher: 5.6.0 #Updated from 5.5.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
