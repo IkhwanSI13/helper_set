@@ -18,7 +18,7 @@ class ImageHelper {
   }
 
   Widget loadImageWidthSize(String url, double width, double height,
-      {Map<String, String> header}) {
+      {Map<String, String> header, Color textColor = Colors.black}) {
     if (header == null) header = {"Content-Type": "application/json"};
     return CachedNetworkImage(
         imageUrl: url,
@@ -33,9 +33,10 @@ class ImageHelper {
               width: width,
               height: height,
             ),
-        placeholder: (context, url) =>
-            loadDefaultImage(width, height, ext: "Loading"),
-        errorWidget: (context, url, error) => loadDefaultImage(width, height));
+        placeholder: (context, url) => loadDefaultImage(width, height,
+            ext: "Loading", textColor: textColor),
+        errorWidget: (context, url, error) =>
+            loadDefaultImage(width, height, textColor: textColor));
   }
 
   Widget loadDefaultImage(double width, double height,
@@ -135,20 +136,16 @@ class ImageHelper {
     return Colors.black;
   }
 
-  //300kb
-  //720 x 1280
-  //1704531 = 1.7mb
-  //667362 = 600kb  88  kali: 1499988 kurang: 204.543
-  //363880 = 363kb  75  kali: 1278398 kurang: 426.132
-  Future<File> compressImage(File fileImage) async {
+  ///300kb
+  //todo better way
+  Future<File> compressImage(File fileImage,
+      {int expectedSize = 300000, String path = "Pictures"}) async {
     final Directory extDir = await getApplicationDocumentsDirectory();
-    final String dirPath = '${extDir.path}/Pictures';
+    final String dirPath = '${extDir.path}/$path';
     await Directory(dirPath).create(recursive: true);
     final String targetPath =
         '$dirPath/${DateTime.now().millisecondsSinceEpoch.toString()}_compress.jpg';
 
-    ///300kb
-    var expectedSize = 300000;
     var currentSize = await fileImage.length();
     File resultFile;
     var quality = 80;
