@@ -1,3 +1,9 @@
+## 0.0.3
+* [new] FileHelper
+* Widget PopUpInfo with builder pattern
+* Set default dropdown error style
+* DateHelper handle TimeOfDay format
+
 ## 0.0.2
 * Remove error helper
 * Image helper

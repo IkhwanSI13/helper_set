@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 ///  await initializeDateFormatting('id_ID', null);
@@ -90,8 +91,7 @@ class DateHelper {
         .millisecondsSinceEpoch;
   }
 
-  //String
-  formatDifferentDate(int dateInMilliSecond) {
+  String getDifferentDate(int dateInMilliSecond) {
     String aMoment = "Baru saja";
     String secondAgo = " detik yang lalu";
     String minuteAgo = " menit yang lalu";
@@ -124,7 +124,7 @@ class DateHelper {
     return result;
   }
 
-  formatDateLeft(int dateInMilliSecond) {
+  String getDateLeft(int dateInMilliSecond) {
     String minuteAgo = " menit lagi";
     String hourAgo = " jam lagi";
     String dayAgo = " hari lagi";
@@ -150,7 +150,7 @@ class DateHelper {
     return result;
   }
 
-  String formatDateLeftNumber(int dateInMilliSecond) {
+  String getDateLeftInNumber(int dateInMilliSecond) {
     var now = DateTime.now();
     var diff =
         now.difference(DateTime.fromMillisecondsSinceEpoch(dateInMilliSecond)) *
@@ -183,7 +183,7 @@ class DateHelper {
   }
 
   ///isbefore not work for today
-  isBeforeOrSameDay(DateTime firstTime, DateTime endTime) {
+  bool isBeforeOrSameDay(DateTime firstTime, DateTime endTime) {
     var cond = false;
     if (firstTime.isBefore(endTime)) cond = true;
     if (firstTime.day == endTime.day &&
@@ -192,7 +192,7 @@ class DateHelper {
     return cond;
   }
 
-  isAfterOrSameDay(DateTime firstTime, DateTime endTime) {
+  bool isAfterOrSameDay(DateTime firstTime, DateTime endTime) {
     var cond = false;
     if (endTime.isAfter(firstTime)) cond = true;
     if (firstTime.day == endTime.day &&
@@ -201,11 +201,44 @@ class DateHelper {
     return cond;
   }
 
-  isSameDay(DateTime firstTime, DateTime endTime) {
+  bool isSameDay(DateTime firstTime, DateTime endTime) {
     var cond = false;
     if (firstTime.day == endTime.day &&
         firstTime.month == endTime.month &&
         firstTime.year == endTime.year) cond = true;
     return cond;
+  }
+
+  String convertTimeOfDayToString(TimeOfDay timeOfDay) {
+    var hour = "";
+    if (timeOfDay.hour > 9)
+      hour = "${timeOfDay.hour}";
+    else
+      hour = "0${timeOfDay.hour}";
+
+    var minute = "";
+    if (timeOfDay.minute > 9)
+      minute = "${timeOfDay.minute}";
+    else
+      minute = "0${timeOfDay.minute}";
+    return "$hour:$minute:00";
+  }
+
+  /// "10:10:10"
+  TimeOfDay convertStringToTimeOfDay(String time) {
+    var splitTime = time.split(":");
+
+    int hour;
+    if (splitTime[0].startsWith("0"))
+      hour = int.parse(splitTime[0].substring(1));
+    else
+      hour = int.parse(splitTime[0]);
+
+    int minute;
+    if (splitTime[1].startsWith("0"))
+      minute = int.parse(splitTime[1].substring(1));
+    else
+      minute = int.parse(splitTime[1]);
+    return TimeOfDay(hour: hour, minute: minute);
   }
 }

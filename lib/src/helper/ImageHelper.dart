@@ -18,7 +18,9 @@ class ImageHelper {
   }
 
   Widget loadImageWidthSize(String url, double width, double height,
-      {Map<String, String> header, Color textColor = Colors.black}) {
+      {Map<String, String> header,
+      Color backgroundColor = Colors.black,
+      TextStyle textStyle}) {
     if (header == null) header = {"Content-Type": "application/json"};
     return CachedNetworkImage(
         imageUrl: url,
@@ -34,19 +36,25 @@ class ImageHelper {
               height: height,
             ),
         placeholder: (context, url) => loadDefaultImage(width, height,
-            ext: "Loading", textColor: textColor),
+            ext: "Loading", backgroundColor: backgroundColor),
         errorWidget: (context, url, error) =>
-            loadDefaultImage(width, height, textColor: textColor));
+            loadDefaultImage(width, height, backgroundColor: backgroundColor));
   }
 
   Widget loadDefaultImage(double width, double height,
-          {String ext = "Photo", Color textColor = Colors.black}) =>
+          {String ext = "Photo",
+          Color backgroundColor = Colors.black,
+          TextStyle textStyle}) =>
       SizedBox(
         child: Container(
           decoration: BoxDecoration(
-            color: textColor,
+            color: backgroundColor,
           ),
-          child: Center(child: Text(ext)),
+          child: Center(
+              child: Text(
+            ext,
+            style: textStyle ?? TextStyle(),
+          )),
         ),
         width: width,
         height: height,

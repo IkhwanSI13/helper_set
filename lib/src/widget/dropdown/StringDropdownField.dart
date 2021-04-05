@@ -64,7 +64,7 @@ class StringDropdownField<T extends DropdownModel> extends FormField<T> {
                       padding: EdgeInsets.fromLTRB(4, 12, 4, 0),
                       child: Text(
                         state.errorText,
-                        style: errorStyle ?? TextStyle(),
+                        style: errorStyle ?? TextStyle(color: Colors.red),
                         textAlign: TextAlign.start,
                       ),
                     )
