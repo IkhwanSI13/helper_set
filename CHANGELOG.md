@@ -1,3 +1,6 @@
+## 0.0.4
+* Support up-to-date dependencies
+
 ## 0.0.3
 * [new] FileHelper
 * Widget PopUpInfo with builder pattern
