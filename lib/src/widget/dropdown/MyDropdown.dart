@@ -54,17 +54,24 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return ElevatedButton(
+        // return ElevatedButton(
+        //   onPressed: _showPopup,
+        //   style: ButtonStyle(
+        //       padding: MaterialStateProperty.all(
+        //           EdgeInsets.symmetric(horizontal: 12.0, vertical: 12)),
+        //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        //       elevation: MaterialStateProperty.all(0.0),
+        //       textStyle: MaterialStateProperty.all(
+        //           TextStyle(color: widget.colorText ?? Colors.black)),
+        //       backgroundColor: MaterialStateProperty.all(
+        //           widget.colorBackground ?? Color(0xffF6F7FB))),
+        return RaisedButton(
           onPressed: _showPopup,
-          style: ButtonStyle(
-              padding: MaterialStateProperty.all(
-                  EdgeInsets.symmetric(horizontal: 12.0, vertical: 12)),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              elevation: MaterialStateProperty.all(0.0),
-              textStyle: MaterialStateProperty.all(
-                  TextStyle(color: widget.colorText ?? Colors.black)),
-              backgroundColor: MaterialStateProperty.all(
-                  widget.colorBackground ?? Color(0xffF6F7FB))),
+          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          elevation: 0.0,
+          textColor: widget.colorText ?? Colors.black,
+          color: widget.colorBackground ?? Color(0xffF6F7FB),
           child: AnimatedSize(
             duration: _controller.duration! ~/ 2,
             curve: Curves.fastOutSlowIn,
