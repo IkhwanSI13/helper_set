@@ -1,3 +1,6 @@
+## 0.0.6
+* null safety
+
 ## 0.0.5-nullsafety1
 * Migrate this package to null safety.
 * Sdk constraints: >=2.12.0-0 <3.0.0
