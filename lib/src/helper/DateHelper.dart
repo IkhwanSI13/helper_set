@@ -1,35 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-///  await initializeDateFormatting('id_ID', null);
-
+/// use this code for Indonesian
+/// await initializeDateFormatting('id_ID', null);
 class DateHelper {
-  static const date_month_year_hours_minute = "dd MMMM yyyy, HH:mm";
-  static const date_month_year_hours_minute2 = "dd/MM/yyyy HH:mm";
-  static const date_month_year_hours_minute3 = "dd/MM/yyyy . HH:mm";
-  static const date_month = "dd MMM";
-  static const date_hours_minute = "HH:mm";
-  static const date_month_year = "yyyy-MM-dd";
-  static const date_month_year2 = "dd/MM/yyyy";
-  static const date_month_year3 = "dd MMM yyyy";
-  static const date_month_year4 = "dd-MM-yyyy";
-  static const date_month_year5 = "MMMM yyyy";
-  static const date_month_year6 = "yyyyMM";
-  static const date_month_year7 = "MM yyyy";
-  static const date_month_year8 = "yyyy-M-d";
-  static const date_month_year9 = "dd MMMM yyyy";
+  static const date_format_db = "yyyy-MM-ddTHH:mm:ssZ";
 
-  static const date_default_db = "yyyy-MM-dd HH:mm:ss";
-  static const date_default_db2 = "yyyy-MM-dd";
-  static const date_default_db3 = "yyyy-MM-ddTHH:mm:ssZ";
-
-  static const date_only_year = "yyyy";
-  static const date_only_month = "MM";
-  static const date_only_date = "dd";
-
-  static const date_only_month_long = "MMMM";
-
-  static const date_db_only_month = "M";
+  /// DATE FORMAT
+  /// date: d dd
+  /// month: M MM MMM MMMM
+  /// year: yy yyyy
+  /// hour: HH
+  /// minute: mm
+  /// second: ss
 
   bool isExpired(int dateInMilliSecond) {
     var now = DateTime.now();
@@ -47,24 +30,18 @@ class DateHelper {
     return prevMonth;
   }
 
-  DateTime convertToDateTime(String date,
-      {String oldFormat = date_month_year}) {
+  DateTime convertToDateTime(String date, {String oldFormat = "yyyy-MM-dd"}) {
     return DateTime(
-        int.parse(
-            convertFormat(date, oldFormat: oldFormat, format: date_only_year)),
-        int.parse(
-            convertFormat(date, oldFormat: oldFormat, format: date_only_month)),
-        int.parse(
-            convertFormat(date, oldFormat: oldFormat, format: date_only_date)));
+        int.parse(convertFormat(date, oldFormat: oldFormat, format: "yyyy")),
+        int.parse(convertFormat(date, oldFormat: oldFormat, format: "MM")),
+        int.parse(convertFormat(date, oldFormat: oldFormat, format: "dd")));
   }
 
   String convertFormat(String date,
-      {String oldFormat = date_default_db,
-      String format = date_month_year_hours_minute,
+      {String oldFormat = "yyyy-MM-dd HH:mm:ss",
+      String format = "dd MMMM yyyy, HH:mm",
       String locale = "id_ID"}) {
-    if (date == null)
-      return "";
-    else if (date.isEmpty) return "";
+    if (date.isEmpty) return "";
     DateFormat dateFormat = DateFormat(oldFormat);
     DateTime dateTime = dateFormat.parse(date);
     DateFormat newFormat = DateFormat(format, locale);
@@ -72,16 +49,14 @@ class DateHelper {
   }
 
   String convertFormatFromInt(int dateInMilliSecond,
-      {String format = date_month_year_hours_minute, String locale = "id_ID"}) {
-    if (dateInMilliSecond == null) return "";
+      {String format = "dd MMMM yyyy, HH:mm", String locale = "id_ID"}) {
     DateTime time = DateTime.fromMillisecondsSinceEpoch(dateInMilliSecond);
     DateFormat newFormat = DateFormat(format, locale);
     return newFormat.format(time);
   }
 
   String convertFormatFromDateTime(DateTime date,
-      {String format = date_month_year_hours_minute, String locale = "id_ID"}) {
-    if (date == null) return "";
+      {String format = "dd MMMM yyyy, HH:mm", String locale = "id_ID"}) {
     DateFormat newFormat = DateFormat(format, locale);
     return newFormat.format(date);
   }
@@ -182,7 +157,7 @@ class DateHelper {
     return DateTime.fromMillisecondsSinceEpoch(dateInMilliSecond);
   }
 
-  ///isbefore not work for today
+  ///isBefore() not work for today
   bool isBeforeOrSameDay(DateTime firstTime, DateTime endTime) {
     var cond = false;
     if (firstTime.isBefore(endTime)) cond = true;

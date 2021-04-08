@@ -18,13 +18,12 @@ class ImageHelper {
   }
 
   Widget loadImageWidthSize(String url, double width, double height,
-      {Map<String, String> header,
+      {Map<String, String>? header,
       Color backgroundColor = Colors.black,
-      TextStyle textStyle}) {
-    if (header == null) header = {"Content-Type": "application/json"};
+      TextStyle? textStyle}) {
     return CachedNetworkImage(
         imageUrl: url,
-        httpHeaders: header,
+        httpHeaders: header ?? {"Content-Type": "application/json"},
         imageBuilder: (context, imageProvider) => SizedBox(
               child: Container(
                 decoration: BoxDecoration(
@@ -36,15 +35,17 @@ class ImageHelper {
               height: height,
             ),
         placeholder: (context, url) => loadDefaultImage(width, height,
-            ext: "Loading", backgroundColor: backgroundColor),
-        errorWidget: (context, url, error) =>
-            loadDefaultImage(width, height, backgroundColor: backgroundColor));
+            ext: "Loading",
+            backgroundColor: backgroundColor,
+            textStyle: textStyle),
+        errorWidget: (context, url, error) => loadDefaultImage(width, height,
+            backgroundColor: backgroundColor, textStyle: textStyle));
   }
 
   Widget loadDefaultImage(double width, double height,
           {String ext = "Photo",
           Color backgroundColor = Colors.black,
-          TextStyle textStyle}) =>
+          TextStyle? textStyle}) =>
       SizedBox(
         child: Container(
           decoration: BoxDecoration(
@@ -81,15 +82,10 @@ class ImageHelper {
       {double radiusSize = 28,
       double widthSize = 63,
       double heightSize = 63,
-      Map<String, String> header}) {
-    if (url == null)
-      return loadCircleName(codeName,
-          radiusSize: radiusSize, widthSize: widthSize, heightSize: heightSize);
-
-    if (header == null) header = {"Content-Type": "application/json"};
+      Map<String, String>? header}) {
     return CachedNetworkImage(
         imageUrl: url,
-        httpHeaders: header,
+        httpHeaders: header ?? {"Content-Type": "application/json"},
         imageBuilder: (context, imageProvider) => SizedBox(
               child: CircleAvatar(
                 radius: radiusSize,
@@ -155,7 +151,7 @@ class ImageHelper {
         '$dirPath/${DateTime.now().millisecondsSinceEpoch.toString()}_compress.jpg';
 
     var currentSize = await fileImage.length();
-    File resultFile;
+    File? resultFile;
     var quality = 80;
 
     while (currentSize > expectedSize) {
@@ -169,7 +165,7 @@ class ImageHelper {
         targetPath,
         quality: quality,
       );
-      currentSize = await resultFile.length();
+      currentSize = await resultFile!.length();
     }
     if (resultFile == null) return fileImage;
     return resultFile;

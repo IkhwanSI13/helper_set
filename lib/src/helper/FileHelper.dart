@@ -44,7 +44,7 @@ class FileHelper {
   }
 
   Future<File> writeToImageFile(Uint8List data, String nameFile,
-      {String path, String docName}) async {
+      {String? path, String? docName}) async {
     var filePath = "";
     if (path == null)
       filePath = await generatePath(docName ?? "Doc") + nameFile;

@@ -4,23 +4,23 @@ import 'package:vector_math/vector_math_64.dart' show radians;
 
 class MyDropdown<T> extends StatefulWidget {
   const MyDropdown({
-    Key key,
-    @required this.itemBuilder,
+    Key? key,
+    required this.itemBuilder,
     this.initialValue,
     this.onSelected,
     this.onCanceled,
     this.colorText,
     this.colorBackground,
-    @required this.child,
+    required this.child,
   }) : super(key: key);
 
   final PopupMenuItemBuilder<T> itemBuilder;
-  final T initialValue;
-  final PopupMenuItemSelected<T> onSelected;
-  final PopupMenuCanceled onCanceled;
+  final T? initialValue;
+  final PopupMenuItemSelected<T>? onSelected;
+  final PopupMenuCanceled? onCanceled;
   final Widget child;
-  final Color colorText;
-  final Color colorBackground;
+  final Color? colorText;
+  final Color? colorBackground;
 
   @override
   _MyDropdownState<T> createState() => _MyDropdownState<T>();
@@ -28,8 +28,8 @@ class MyDropdown<T> extends StatefulWidget {
 
 class _MyDropdownState<T> extends State<MyDropdown<T>>
     with TickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _rotation;
+  late AnimationController _controller;
+  late Animation<double> _rotation;
 
   @override
   void initState() {
@@ -54,15 +54,19 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return RaisedButton(
+        return ElevatedButton(
           onPressed: _showPopup,
-          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          elevation: 0.0,
-          textColor: widget.colorText ?? Colors.black,
-          color: widget.colorBackground ?? Color(0xffF6F7FB),
+          style: ButtonStyle(
+              padding: MaterialStateProperty.all(
+                  EdgeInsets.symmetric(horizontal: 12.0, vertical: 12)),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              elevation: MaterialStateProperty.all(0.0),
+              textStyle: MaterialStateProperty.all(
+                  TextStyle(color: widget.colorText ?? Colors.black)),
+              backgroundColor: MaterialStateProperty.all(
+                  widget.colorBackground ?? Color(0xffF6F7FB))),
           child: AnimatedSize(
-            duration: _controller.duration ~/ 2,
+            duration: _controller.duration! ~/ 2,
             curve: Curves.fastOutSlowIn,
             vsync: this,
             child: Row(
@@ -78,7 +82,7 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
                 const SizedBox(width: 8.0),
                 AnimatedBuilder(
                   animation: _rotation,
-                  builder: (BuildContext context, Widget child) {
+                  builder: (BuildContext context, Widget? child) {
                     return Transform.rotate(
                       angle: radians(_rotation.value),
                       child: child,
@@ -95,8 +99,9 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
   }
 
   void _showPopup() {
-    final RenderBox button = context.findRenderObject();
-    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    final RenderBox button = context.findRenderObject() as RenderBox;
+    final RenderBox? overlay =
+        Overlay.of(context)!.context.findRenderObject() as RenderBox?;
     final Rect position = Rect.fromPoints(
       button.localToGlobal(Offset.zero, ancestor: overlay),
       button.localToGlobal(button.size.bottomRight(Offset.zero),
@@ -114,7 +119,7 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
     Future.delayed(const Duration(milliseconds: 150), () {
       return Navigator.of(context, rootNavigator: true)
           .push<T>(route)
-          .then((T result) {
+          .then((T? result) {
         if (!mounted) {
           return;
         }
@@ -132,15 +137,14 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
 class _PopupMenuRoute<T> extends PopupRoute<T> {
   _PopupMenuRoute({
     this.initialValue,
-    @required this.items,
-    @required this.position,
+    required this.items,
+    required this.position,
     this.shadow = const BoxShadow(
         color: Colors.black26, blurRadius: 6.0, spreadRadius: -2.0),
   });
 
-  ///trace
   final List<PopupMenuEntry<T>> items;
-  final T initialValue;
+  final T? initialValue;
   final Rect position;
 
   @override
@@ -150,10 +154,10 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
   bool get barrierDismissible => true;
 
   @override
-  Color get barrierColor => null;
+  Color? get barrierColor => null;
 
   @override
-  String get barrierLabel => null;
+  String? get barrierLabel => null;
 
   final BoxShadow shadow;
 
@@ -206,15 +210,14 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
 /// Popup panel of list items
 class _PopupPanel<T> extends StatelessWidget {
   const _PopupPanel({
-    Key key,
-    @required this.items,
+    Key? key,
+    required this.items,
     this.pointerPosition = 0.9,
     this.pointerSize = 8.0,
-    this.padding,
+    required this.padding,
     this.shadow = const BoxShadow(
         color: Colors.black26, blurRadius: 6.0, spreadRadius: -2.0),
-  })  : assert(padding != null),
-        super(key: key);
+  }) : super(key: key);
 
   final List<PopupMenuEntry<T>> items;
   final double pointerPosition;
@@ -224,7 +227,6 @@ class _PopupPanel<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ///
     final border = _PopupPanelBorder(
       side: BorderSide(color: Colors.grey.shade300, width: 1.0),
       borderRadius: BorderRadius.circular(2.0),
@@ -261,8 +263,7 @@ class _PopupPanelBorder extends BoxBorder {
     this.pointerSize = 8.0,
     this.color,
     this.shadow,
-  })  : assert(side != null),
-        assert(borderRadius != null);
+  });
 
   /// The style of this border.
   final BorderSide side;
@@ -285,9 +286,9 @@ class _PopupPanelBorder extends BoxBorder {
   /// The size of the pointer in logical pixels.
   final double pointerSize;
 
-  final Color color;
+  final Color? color;
 
-  final BoxShadow shadow;
+  final BoxShadow? shadow;
 
   @override
   EdgeInsetsGeometry get dimensions => EdgeInsets.zero;
@@ -301,12 +302,12 @@ class _PopupPanelBorder extends BoxBorder {
   }
 
   @override
-  Path getInnerPath(Rect rect, {TextDirection textDirection}) {
+  Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
     return getOuterPath(rect.deflate(side.width), textDirection: textDirection);
   }
 
   @override
-  Path getOuterPath(Rect rect, {TextDirection textDirection}) {
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
     final radius = borderRadius.resolve(textDirection);
     final roundedRect = radius.toRRect(rect);
     final pointerRect = roundedRect.middleRect.inflate(-pointerSize);
@@ -325,20 +326,20 @@ class _PopupPanelBorder extends BoxBorder {
 
   @override
   void paint(Canvas canvas, Rect rect,
-      {TextDirection textDirection,
+      {TextDirection? textDirection,
       BoxShape shape = BoxShape.rectangle,
-      BorderRadius borderRadius}) {
+      BorderRadius? borderRadius}) {
     final path = getOuterPath(rect, textDirection: textDirection);
     if (shadow != null) {
-      final scale = 1.0 + shadow.spreadRadius / 100;
+      final scale = 1.0 + shadow!.spreadRadius / 100;
       final center = rect.center;
       final m = Matrix4.translationValues(center.dx, center.dy, 0.0)
         ..scale(scale, scale)
         ..translate(-center.dx, -center.dy);
-      canvas.drawPath(path.transform(m.storage), shadow.toPaint());
+      canvas.drawPath(path.transform(m.storage), shadow!.toPaint());
     }
     if (color != null) {
-      canvas.drawPath(path, Paint()..color = color);
+      canvas.drawPath(path, Paint()..color = color!);
     }
     if (side.style == BorderStyle.solid) {
       canvas.drawPath(path, side.toPaint());

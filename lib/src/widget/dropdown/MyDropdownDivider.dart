@@ -9,7 +9,7 @@ class MyDropdownDivider<T> extends PopupMenuEntry<T> {
   double get height => 1.0;
 
   @override
-  bool represents(T value) => false;
+  bool represents(T? value) => false;
 }
 
 class _DropdownDividerState<T> extends State<MyDropdownDivider<T>> {

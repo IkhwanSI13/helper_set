@@ -6,8 +6,8 @@ class TextHelper {
   Widget getTextWithReadMore(int maxLine, String text, Function() readMore,
       {String readMoreText = "Lihat selengkapnya",
       int marginOnText = 0,
-      TextStyle textStyleNonClickable,
-      TextStyle textStyleClickable}) {
+      TextStyle? textStyleNonClickable,
+      TextStyle? textStyleClickable}) {
     int length = getTextLengthDependOnWidth(maxLine: maxLine) - marginOnText;
     if (length > text.length)
       return Text(text, style: textStyleNonClickable ?? TextStyle());
@@ -61,7 +61,6 @@ class TextHelper {
   }
 
   String getCurrency(int amount, {bool withoutRp = false}) {
-    // var format = new NumberFormat("#,##0.00", "en_US");
     var myFormat = new NumberFormat("#,###", "ind");
     if (withoutRp) return myFormat.format(amount);
     return "Rp. " + myFormat.format(amount);
@@ -103,10 +102,8 @@ class TextHelper {
 
   String getTotalText(int count, String word) {
     var text = "";
-    if (count != null) {
-      text += NumberFormat.compact().format(int.parse(count.toString()));
-      text += " $word";
-    }
+    text += NumberFormat.compact().format(int.parse(count.toString()));
+    text += " $word";
     return text;
   }
 }

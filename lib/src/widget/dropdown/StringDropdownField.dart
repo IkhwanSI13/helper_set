@@ -5,23 +5,23 @@ import 'MyDropdown.dart';
 import 'MyDropdownDivider.dart';
 
 class StringDropdownField<T extends DropdownModel> extends FormField<T> {
-  final List<T> data;
+  final List<T>? data;
   final bool isActive;
-  final TextStyle errorStyle;
-  final Color colorText;
-  final Color colorBackground;
+  final TextStyle? errorStyle;
+  final Color? colorText;
+  final Color? colorBackground;
 
   StringDropdownField(
-      {Key key,
+      {Key? key,
       this.data,
       this.isActive = true,
       this.errorStyle,
       this.colorText,
       this.colorBackground,
-      FormFieldSetter<T> onSaved,
-      FormFieldValidator<T> validator,
-      T initialValue,
-      Function(T) onSelected})
+      FormFieldSetter<T>? onSaved,
+      FormFieldValidator<T>? validator,
+      T? initialValue,
+      Function(T)? onSelected})
       : super(
             key: key,
             onSaved: onSaved,
@@ -38,13 +38,13 @@ class StringDropdownField<T extends DropdownModel> extends FormField<T> {
                     colorBackground: colorBackground ?? Color(0xffF6F7FB),
                     onSelected: (item) {
                       if (isActive) {
-                        onSelected(item);
+                        onSelected!(item);
                         state.didChange(item);
                       }
                     },
                     itemBuilder: (BuildContext context) {
                       return List<PopupMenuEntry<T>>.generate(
-                          (data.length * 2 - 1), (int index) {
+                          (data!.length * 2 - 1), (int index) {
                         if (index.isEven) {
                           final item = data[index ~/ 2];
                           return PopUpObject<T>(value: item);
@@ -63,7 +63,7 @@ class StringDropdownField<T extends DropdownModel> extends FormField<T> {
                     Container(
                       padding: EdgeInsets.fromLTRB(4, 12, 4, 0),
                       child: Text(
-                        state.errorText,
+                        state.errorText!,
                         style: errorStyle ?? TextStyle(color: Colors.red),
                         textAlign: TextAlign.start,
                       ),
@@ -75,11 +75,11 @@ class StringDropdownField<T extends DropdownModel> extends FormField<T> {
 
 class PopUpObject<T extends DropdownModel> extends PopupMenuEntry<T> {
   const PopUpObject({
-    Key key,
+    Key? key,
     this.value,
   }) : super(key: key);
 
-  final T value;
+  final T? value;
 
   @override
   _PopUpObjectItemState<T> createState() => _PopUpObjectItemState<T>();
@@ -89,7 +89,7 @@ class PopUpObject<T extends DropdownModel> extends PopupMenuEntry<T> {
   double get height => 32.0;
 
   @override
-  bool represents(T value) => this.value == value;
+  bool represents(T? value) => this.value == value;
 }
 
 class _PopUpObjectItemState<T extends DropdownModel>
@@ -104,7 +104,7 @@ class _PopUpObjectItemState<T extends DropdownModel>
   }
 }
 
-class DropdownObject<T extends DropdownModel> extends StatelessWidget {
+class DropdownObject<T extends DropdownModel?> extends StatelessWidget {
   final T data;
 
   DropdownObject(this.data);
@@ -112,6 +112,6 @@ class DropdownObject<T extends DropdownModel> extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         padding: EdgeInsets.only(top: 4, bottom: 4),
-        child: Text(data.getText()),
+        child: Text(data!.getText()),
       );
 }

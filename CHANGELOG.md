@@ -1,3 +1,9 @@
+## 0.0.5-nullsafety1
+* Migrate this package to null safety.
+* Sdk constraints: >=2.12.0-0 <3.0.0
+* simplify DateHelper
+* use ElevatedButton instead of RaisedButton at DropDown widget
+
 ## 0.0.4
 * Support up-to-date dependencies
 
