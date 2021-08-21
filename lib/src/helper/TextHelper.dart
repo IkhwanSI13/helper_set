@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TextHelper {
+  bool isNumeric(String s) => int.tryParse(s) != null;
+
+  ///
   Widget getTextWithReadMore(int maxLine, String text, Function() readMore,
       {String readMoreText = "Lihat selengkapnya",
       int marginOnText = 0,
@@ -30,6 +33,7 @@ class TextHelper {
     return result;
   }
 
+  ///
   String getCodeName(String fullName) {
     if (fullName.isNotEmpty) {
       var code = fullName.split(" ");
@@ -60,6 +64,7 @@ class TextHelper {
     return first + hide;
   }
 
+  ///
   String getCurrency(int amount, {bool withoutRp = false}) {
     var myFormat = new NumberFormat("#,###", "ind");
     if (withoutRp) return myFormat.format(amount);
@@ -78,19 +83,28 @@ class TextHelper {
     return "Rp. " + result;
   }
 
-  //todo-me check like more than 1000
-  String getShortCurrency(int amount, String extraText) {
+  String getShortAmount(int amount, {String? textMany, String? textExtra}) {
+    var result = "";
     if (amount < 1000)
-      return getCurrency(amount, withoutRp: true) + " " + extraText;
+      result = amount.toString();
     else if (amount < 1000000) {
       var currency = getCurrency(amount, withoutRp: true);
-      return currency.substring(0, currency.indexOf(".")) + "K " + extraText;
+      result = currency.substring(0, currency.indexOf(".")) + " K";
+    } else if (amount < 1000000000) {
+      var currency = getCurrency(amount, withoutRp: true);
+      result = currency.substring(0, currency.indexOf(".")) + " M";
     }
-    return "others";
+
+    if (result.isNotEmpty) {
+      if (textExtra != null) return result += " $textExtra";
+      return result;
+    }
+    return textMany ?? "many";
   }
 
   String removeCurrency(String text) => text.replaceAll(".", "");
 
+  ///
   String convertNumberToText(String numberToFormat) {
     var formattedNumber = NumberFormat.compactCurrency(
       decimalDigits: 2,

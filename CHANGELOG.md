@@ -1,3 +1,7 @@
+## 0.0.7
+* [new] HashHelper
+* [update] image, text, & validator helper
+
 ## 0.0.6
 * null safety
 

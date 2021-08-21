@@ -11,6 +11,8 @@ class StringDropdownField<T extends DropdownModel> extends FormField<T> {
   final Color? colorText;
   final Color? colorBackground;
 
+  final String? textHint;
+
   StringDropdownField(
       {Key? key,
       this.data,
@@ -18,6 +20,7 @@ class StringDropdownField<T extends DropdownModel> extends FormField<T> {
       this.errorStyle,
       this.colorText,
       this.colorBackground,
+      this.textHint,
       FormFieldSetter<T>? onSaved,
       FormFieldValidator<T>? validator,
       T? initialValue,
@@ -55,7 +58,7 @@ class StringDropdownField<T extends DropdownModel> extends FormField<T> {
                     },
                     child: state.value == null
                         ? Text(
-                            'Pilih',
+                            textHint ?? 'Pilih',
                           )
                         : DropdownObject(state.value),
                   ),

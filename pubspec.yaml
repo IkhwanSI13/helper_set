@@ -1,6 +1,6 @@
 name: helper_set
 description: This package contains many frequently used helper classes, models, and widgets.
-version: 0.0.6
+version: 0.0.7
 homepage: https://github.com/IkhwanSI13/helper_set
 
 environment:

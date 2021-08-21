@@ -82,6 +82,7 @@ class ImageHelper {
       {double radiusSize = 28,
       double widthSize = 63,
       double heightSize = 63,
+        double fontSize = 14,
       Map<String, String>? header}) {
     return CachedNetworkImage(
         imageUrl: url,
@@ -106,7 +107,10 @@ class ImageHelper {
   }
 
   Widget loadCircleName(String codeName,
-      {double radiusSize = 28, double widthSize = 63, double heightSize = 63}) {
+      {double radiusSize = 28,
+      double widthSize = 63,
+      double heightSize = 63,
+      double fontSize = 14}) {
     var colorCircle = generateColor(codeName);
     return SizedBox(
       child: CircleAvatar(
@@ -114,7 +118,7 @@ class ImageHelper {
         backgroundColor: colorCircle,
         child: Text(
           codeName,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: fontSize),
         ),
       ),
       width: widthSize,
