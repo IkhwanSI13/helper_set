@@ -1,11 +1,11 @@
 name: helper_set
 description: This package contains many frequently used helper classes, models, and widgets.
-version: 0.0.7
+version: 0.0.8
 homepage: https://github.com/IkhwanSI13/helper_set
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
-  flutter: ">=1.17.0"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
 
 dependencies:
   flutter:

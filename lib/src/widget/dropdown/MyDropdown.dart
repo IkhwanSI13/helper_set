@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vector_math/vector_math_64.dart' show radians;
 
 class MyDropdown<T> extends StatefulWidget {
@@ -65,17 +64,17 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
         //           TextStyle(color: widget.colorText ?? Colors.black)),
         //       backgroundColor: MaterialStateProperty.all(
         //           widget.colorBackground ?? Color(0xffF6F7FB))),
-        return RaisedButton(
+        return ElevatedButton(
           onPressed: _showPopup,
-          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          elevation: 0.0,
-          textColor: widget.colorText ?? Colors.black,
-          color: widget.colorBackground ?? Color(0xffF6F7FB),
+          style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+              backgroundColor: widget.colorBackground ?? Color(0xffF6F7FB),
+              shadowColor: Colors.greenAccent,
+              elevation: 0,
+              textStyle: TextStyle(color: widget.colorText ?? Colors.black)),
           child: AnimatedSize(
             duration: _controller.duration! ~/ 2,
             curve: Curves.fastOutSlowIn,
-            vsync: this,
             child: Row(
               key: Key(widget.initialValue?.toString() ?? ''),
               mainAxisSize: constraints.hasTightWidth
@@ -108,13 +107,13 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
   void _showPopup() {
     final RenderBox button = context.findRenderObject() as RenderBox;
     final RenderBox? overlay =
-        Overlay.of(context)!.context.findRenderObject() as RenderBox?;
+        Overlay.of(context).context.findRenderObject() as RenderBox?;
     final Rect position = Rect.fromPoints(
       button.localToGlobal(Offset.zero, ancestor: overlay),
       button.localToGlobal(button.size.bottomRight(Offset.zero),
           ancestor: overlay),
     );
-    final buttonColor = Theme.of(context).buttonColor;
+    final buttonColor = Theme.of(context).primaryColor;
     final route = _PopupMenuRoute<T>(
       initialValue: widget.initialValue,
       items: widget.itemBuilder(context),
