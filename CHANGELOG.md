@@ -1,4 +1,7 @@
-## 0.0.7
+## 0.0.8
+* [update] Flutter SDK
+
+* ## 0.0.7
 * [new] HashHelper
 * [update] image, text, & validator helper
 
